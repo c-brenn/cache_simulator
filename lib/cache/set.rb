@@ -1,6 +1,7 @@
 require_relative "./fifo_replacement"
+
 class Set
-  attr_reader  :num_lines
+  attr_reader  :num_lines, :replacement_policy
   attr_accessor :lines, :occupied_lines
 
   def initialize(lines_per_set, bytes_per_line, replacement_policy = nil)
@@ -11,7 +12,9 @@ class Set
   end
 
   def access(tag)
-    if lines.any? { |t| t == tag }
+    index = lines.index { |t| t == tag }
+    if index
+      replacement_policy.access(index)
       true
     else
       add_tag(tag)
@@ -28,9 +31,10 @@ class Set
   def add_tag(tag)
     self.occupied_lines += 1 if !full?
     lines[replacement_index] = tag
+    replacement_policy.access(replacement_index)
   end
 
   def replacement_index
-    @replacement_policy.next_index
+    replacement_policy.replacement_index
   end
 end

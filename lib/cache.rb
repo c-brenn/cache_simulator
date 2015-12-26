@@ -19,7 +19,7 @@ class Cache
   def split_adress(address)
     offset = address & gen_mask(offset_bits)
     set_number = (address >> offset_bits) & gen_mask(set_bits)
-    tag = address >> set_bits + offset_bits
+    tag = address >> (set_bits + offset_bits)
     [tag, set_number, offset]
   end
 
