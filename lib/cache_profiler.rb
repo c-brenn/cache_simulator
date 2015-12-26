@@ -1,6 +1,7 @@
 require_relative "./cache"
 require_relative "./cache/set"
 require_relative "./cache/lru_replacement"
+require_relative "./cache/pseudo_lru_replacement"
 
 class CacheProfiler
   @@addresses = [
@@ -73,6 +74,17 @@ class CacheProfiler
     end
   end
 
+  def print_result(address, is_hit)
+    tag, set, offset = cache.split_adress(address)
+    str = "address #{address}\t set #{set}\t "
+    if is_hit
+      str << "hit"
+    else
+      str << "miss"
+    end
+    puts str
+  end
+
   def print_results
     puts "-- Results --"
     puts "hits: #{self.hits}"
@@ -82,7 +94,16 @@ class CacheProfiler
 end
 
 comp = CacheProfiler.new
-comp.profile(Cache.new(8, 1, 16))
-comp.profile(Cache.new(4, 2, 16))
-comp.profile(Cache.new(2, 4, 16))
-comp.profile(Cache.new(1, 8, 16))
+puts "---- LRU ----"
+rep_policy = LRUReplacement
+comp.profile(Cache.new(8, 1, 16, rep_policy))
+comp.profile(Cache.new(4, 2, 16, rep_policy))
+comp.profile(Cache.new(2, 4, 16, rep_policy))
+comp.profile(Cache.new(1, 8, 16, rep_policy))
+
+puts "---- Psuedo LRU ----"
+rep_policy = PseudoLRUReplacement
+comp.profile(Cache.new(8, 1, 16, rep_policy))
+comp.profile(Cache.new(4, 2, 16, rep_policy))
+comp.profile(Cache.new(2, 4, 16, rep_policy))
+comp.profile(Cache.new(1, 8, 16, rep_policy))
