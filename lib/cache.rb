@@ -4,10 +4,10 @@ class Cache
   attr_accessor :sets
   attr_reader :set_bits, :offset_bits
 
-  def initialize(num_sets, lines_per_set, bytes_per_line)
+  def initialize(num_sets, lines_per_set, bytes_per_line, replacement_policy = nil)
     @set_bits = Math.log2(num_sets).ceil
     @offset_bits = Math.log2(bytes_per_line).ceil
-    initilize_sets(num_sets, lines_per_set, bytes_per_line)
+    initilize_sets(num_sets, lines_per_set, bytes_per_line, replacement_policy)
   end
 
   def access(address)
@@ -25,10 +25,10 @@ class Cache
 
   private
 
-  def initilize_sets(num_sets, lines_per_set, bytes_per_line)
+  def initilize_sets(num_sets, lines_per_set, bytes_per_line, replacement_policy)
     self.sets = []
     num_sets.times do
-      self.sets << Set.new(lines_per_set, bytes_per_line)
+      self.sets << Set.new(lines_per_set, bytes_per_line, replacement_policy)
     end
   end
 

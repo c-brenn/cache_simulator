@@ -5,10 +5,11 @@ class Set
   attr_accessor :lines, :occupied_lines
 
   def initialize(lines_per_set, bytes_per_line, replacement_policy = nil)
+    replacement_policy ||= LRUReplacement
     @num_lines = lines_per_set
     @occupied_lines = 0
     @lines = []
-    @replacement_policy = FifoReplacement.new(lines_per_set)
+    @replacement_policy = replacement_policy.new(lines_per_set)
   end
 
   def access(tag)
