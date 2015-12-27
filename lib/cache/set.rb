@@ -1,38 +1,40 @@
-require_relative "./fifo_replacement"
+require_relative "./replacement_policy_factory"
 
 class Set
   attr_reader  :num_lines, :replacement_policy
-  attr_accessor :lines, :occupied_lines
+  attr_accessor :lines
 
-  def initialize(lines_per_set, bytes_per_line, replacement_policy = nil)
-    replacement_policy ||= LRUReplacement
+  def initialize(lines_per_set, bytes_per_line, replacement_policy = :lru)
     @num_lines = lines_per_set
-    @occupied_lines = 0
     @lines = []
-    @replacement_policy = replacement_policy.new(lines_per_set)
+    @replacement_policy = ReplacementPolicyFactory.new.build(
+        lines_per_set: lines_per_set,
+        replacement_policy: replacement_policy)
   end
 
   def access(tag)
-    index = lines.index { |t| t == tag }
-    if index
-      replacement_policy.access(index)
-      true
-    else
-      add_tag(tag)
-      false
-    end
+    lookup(tag) || handle_miss(tag)
+  end
+
+  def hit?
+    @hit
   end
 
   private
 
-  def full?
-    occupied_lines == num_lines
+  def lookup(tag)
+    index = lines.index { |t| t == tag }
+    if index
+      replacement_policy.access(index)
+      @hit = true
+    end
   end
 
-  def add_tag(tag)
-    self.occupied_lines += 1 if !full?
-    lines[replacement_index] = tag
-    replacement_policy.access(replacement_index)
+  def handle_miss(tag)
+    index = replacement_index
+    lines[index] = tag
+    replacement_policy.access(index)
+    @hit = false
   end
 
   def replacement_index

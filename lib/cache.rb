@@ -4,7 +4,7 @@ class Cache
   attr_accessor :sets
   attr_reader :set_bits, :offset_bits
 
-  def initialize(num_sets, lines_per_set, bytes_per_line, replacement_policy = nil)
+  def initialize(num_sets, lines_per_set, bytes_per_line, replacement_policy = :lru)
     @set_bits = Math.log2(num_sets).ceil
     @offset_bits = Math.log2(bytes_per_line).ceil
     initilize_sets(num_sets, lines_per_set, bytes_per_line, replacement_policy)
@@ -12,8 +12,12 @@ class Cache
 
   def access(address)
     tag, set, offset = split_adress(address)
-
     sets[set].access(tag)
+    @hit = sets[set].hit?
+  end
+
+  def hit?
+    @hit
   end
 
   def split_adress(address)

@@ -1,4 +1,4 @@
-require "cache/lru_replacement"
+require "cache/replacement_policies/lru_replacement"
 
 describe LRUReplacement do
   subject { LRUReplacement.new(2) }

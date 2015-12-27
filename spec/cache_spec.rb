@@ -29,14 +29,14 @@ describe Cache do
     it "misses when there is nothing in the cache" do
       cache = Cache.new(1, 1, 1)
 
-      expect(cache.access(0x11)).to eq(false)
+      expect(cache.access(0x11)).to be_falsey
     end
 
     it "hits when the entry is in the cache" do
       cache = Cache.new(2, 4, 16)
       cache.access(0x11)
 
-      expect(cache.access(0x11)).to eq true
+      expect(cache.access(0x11)).to be_truthy
     end
   end
 end

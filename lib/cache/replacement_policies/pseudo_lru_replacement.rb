@@ -7,25 +7,21 @@ class PseudoLRUReplacement
   end
 
   def access(index)
-    alter_tree(@base_index + (index / 2), index % 2) if @num_lines != 1
+    alter_tree(@base_index + (index / 2), index % 2)
   end
 
   def replacement_index
-    if @num_lines == 1
-      0
-    else
-      build_str(0, "").to_i(2)
-    end
+    build_index(0, "").to_i(2)
   end
 
   private
 
-  def build_str(index, str)
+  def build_index(index, str)
     bit = bits[index]
     str << bit.to_s
     next_index = index * 2 + 1 + bit
     if next_index < bits.length
-      build_str(next_index, str)
+      build_index(next_index, str)
     else
       str
     end
@@ -33,11 +29,9 @@ class PseudoLRUReplacement
 
   def alter_tree(index, parity)
     bits[index] = flip_parity(parity)
-    if index <= 0
-      return
-    else
-      alter_tree((index - 1) / 2, (index + 1) % 2)
-    end
+    return if index <= 0
+
+    alter_tree((index - 1) / 2, (index + 1) % 2)
   end
 
   def flip_parity(parity)

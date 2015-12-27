@@ -1,4 +1,4 @@
-require "cache/fifo_replacement"
+require "cache/replacement_policies/fifo_replacement"
 
 describe FifoReplacement do
   subject { FifoReplacement.new(0) }
