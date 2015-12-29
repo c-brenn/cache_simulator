@@ -15,6 +15,11 @@ class ReplacementPolicyFactory
     improved_random: ImprovedRandomReplacement
   }
 
+  def self.policies
+    REPLACEMENT_POLICIES.keys
+  end
+
+
   def initialize
     @policies = Hash.new(LRUReplacement).merge REPLACEMENT_POLICIES
   end
