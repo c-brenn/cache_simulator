@@ -1,11 +1,10 @@
 require_relative "./replacement_policy_factory"
 
 class Set
-  attr_reader  :num_lines, :replacement_policy
+  attr_reader   :replacement_policy
   attr_accessor :lines
 
   def initialize(lines_per_set, bytes_per_line, replacement_policy = :lru)
-    @num_lines = lines_per_set
     @lines = []
     @replacement_policy = ReplacementPolicyFactory.new.build(
         lines_per_set: lines_per_set,
