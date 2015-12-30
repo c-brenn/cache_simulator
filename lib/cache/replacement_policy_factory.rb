@@ -12,7 +12,8 @@ class ReplacementPolicyFactory
     pseudo_lru_tree: PseudoLRUReplacement,
     pseudo_lru_bits: BitPLRUReplacement,
     random: RandomReplacement,
-    improved_random: ImprovedRandomReplacement
+    improved_random: ImprovedRandomReplacement,
+    fifo: FifoReplacement
   }
 
   def self.policies
