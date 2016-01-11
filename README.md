@@ -24,39 +24,40 @@ The replacement policies I impemented were:
   - Choose a random line to replace
 - Improved Random
   - Fill the set and then start picking randomly
+- FIFO
 
 The results below show the hit rates of several configurations while accessing the addresses in `support/addresses.txt`.
-As direct mapped caches essentially have no replacement policy all policies yield the same result in a direct mapped cache (30.3% hit rate).
+As direct mapped caches essentially have no replacement policy all policies yield the same result in a direct mapped cache (28.1% hit rate).
 
 ### 4 sets 2 lines per set
 
 | Replacement Policy | Hit Rate |
 |--------------------|----------|
-| LRU                | 0.424    |
-| Pseudo LRU (tree)  | 0.424    |
-| Pseudo LRU (bits)  | 0.394    |
-| Random             | 0.364    |
-| Improved Random    | 0.485    |
+| LRU                | 0.406    |
+| Pseudo LRU (tree)  | 0.406    |
+| Pseudo LRU (bits)  | 0.375    |
+| Random             | 0.375    |
+| Improved Random    | 0.406    |
 
 ### 2 sets 4 lines per set
 
 | Replacement Policy | Hit Rate |
 |--------------------|----------|
-| LRU                | 0.485    |
-| Pseudo LRU (tree)  | 0.455    |
-| Pseudo LRU (bits)  | 0.364    |
-| Random             | 0.364    |
-| Improved Random    | 0.394    |
+| LRU                | 0.469    |
+| Pseudo LRU (tree)  | 0.438    |
+| Pseudo LRU (bits)  | 0.344    |
+| Random             | 0.344    |
+| Improved Random    | 0.375    |
 
 ### Fully Associative
 
 | Replacement Policy | Hit Rate |
 |--------------------|----------|
-| LRU                | 0.515    |
-| Pseudo LRU (tree)  | 0.455    |
-| Pseudo LRU (bits)  | 0.455    |
-| Random             | 0.333    |
-| Improved Random    | 0.515    |
+| LRU                | 0.5      |
+| Pseudo LRU (tree)  | 0.438    |
+| Pseudo LRU (bits)  | 0.438    |
+| Random             | 0.281    |
+| Improved Random    | 0.5      |
 
 ## Conclusions
 
